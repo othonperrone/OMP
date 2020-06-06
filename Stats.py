@@ -35,6 +35,7 @@ asset = pd.DataFrame(data=asset.close,index=asset.index)
 benchmark = pd.DataFrame(data=benchmark.close,index=benchmark.index)
 r_a = asset.pct_change()[1:]
 r_b = benchmark.pct_change()[1:]
+#1234
 
 linreg(r_b.values, r_a.values)
 
