@@ -4,6 +4,7 @@ from yahoo_fin import stock_info as si
 import matplotlib.pyplot as plt
 import numpy as np
 import datetime as dt 
+#s
 
 from sklearn.linear_model import LinearRegression as ln
 
