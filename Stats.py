@@ -8,6 +8,9 @@ import math
 import datetime
 from yahoo_fin import stock_info as si 
 
+import plotly.offline as py
+import plotly.graph_objs as go
+py.init_notebook_mode(connected=True)
 #%%
 def linreg(X,Y):
     # Running the linear regression
@@ -35,7 +38,6 @@ asset = pd.DataFrame(data=asset.close,index=asset.index)
 benchmark = pd.DataFrame(data=benchmark.close,index=benchmark.index)
 r_a = asset.pct_change()[1:]
 r_b = benchmark.pct_change()[1:]
-#1234
 
 linreg(r_b.values, r_a.values)
 
