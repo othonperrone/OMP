@@ -108,7 +108,38 @@ stats.diagnostic.breaks_cusumolsresid(
 
 
 # %%
-ac =regression.linear_model.OLS(pricing, sm.add_constant(xs)).fit().resid
-ab= regression.linear_model.OLS(pricing[:breakpoint], sm.add_constant(xs2)).fit().resid
+# Get pricing data for two benchmarks (stock indices) and a stock
+start = '2013-01-01'
+end = '2015-01-01'
+b1 = si.get_data('SPY',start_date=start,end_date=end)
+b1 = pd.DataFrame(data=b1.close,index=b1.index)
+b2 = si.get_data('MDY',start_date=start,end_date=end)
+b2 = pd.DataFrame(data=b2.close,index=b2.index)
+asset = si.get_data('V',start_date=start,end_date=end)
+asset = pd.DataFrame(data=asset.close,index=asset.index)
+
+#%%%
+
+
+print(sm.add_constant(np.column_stack((b1, b2))))
+#%%1
+
+mlr = regression.linear_model.OLS(asset, sm.add_constant(np.column_stack((b1, b2)))).fit()
+prediction = mlr.params[0] + mlr.params[1]*b1 + mlr.params[2]*b2
+print('Constant:', mlr.params[0], 'MLR beta to S&P 500:', mlr.params[1], ' MLR beta to MDY', mlr.params[2])
+
+# Plot the asset pricing data and the regression model prediction, just for fun
+plt.plot(asset)
+plt.plot(prediction)
+#asset.plot()
+#prediction.plot(color='y')
+plt.ylabel('Price')
+plt.legend(['Asset', 'Linear Regression Prediction']);
+
+# %s%
+
+sp.stats.pearsonr(b1.close,b2.close)[0]
+
+
 
 # %%
