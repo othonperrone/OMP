@@ -53,3 +53,7 @@ plt.ylabel('Observed Frequency')
 plt.legend(['Fitted Distribution PDF', 'Observed Data', ]);
 
 # %%
+TRUE_LAMBDA = 5
+X = np.random.exponential(TRUE_LAMBDA, 1000)
+
+# %%
