@@ -2,6 +2,9 @@
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
+import plotly.offline as py
+import plotly.graph_objs as go
+py.init_notebook_mode(connected=True)
 
 #%%
 
@@ -26,7 +29,13 @@ IPCA2 = IPCAacumulado
 IPCA2['YTD'] = IPCAYTD.valor
 IPCA2['Month'] = IPCA.valor/100
 #print(df)
-#plt.plot(df)
+plt.plot(df)
 
+IPCAplotly = go.Scatter(x = df.index,
+            y = df.valor,
+            mode = 'lines')
+
+data = [IPCAplotly]
+py.iplot(data)
 
 # %%
