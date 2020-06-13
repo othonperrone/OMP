@@ -16,9 +16,9 @@ TBL_setor = pd.read_excel('Setorial.xlsx',sheet_name='Plan3')
 
 
 #%%GSelecionando setor
-Seg = 'Análises e Diagnósticos'
-#Sec_A = TBL_setor[(TBL_setor.SEGMENTO==Seg)]
-Sec_A = TBL_setor
+Seg = 'Incorporações'
+Sec_A = TBL_setor[(TBL_setor.SEGMENTO==Seg)]
+#Sec_A = TBL_setor
 #%%
 start_date = '2020-02-26'
 end_date = '2020-12-31'
@@ -51,3 +51,18 @@ RET = px.line(Cumulative_Returns)
 RET.show()
 
 # %%
+EPS = si.get_quote_table(Sec.iloc[10]+'3.SA')
+EPSdf = pd.DataFrame.from_dict(EPS,orient = 'index').transpose()
+EPSdf['Cod'] = Sec.iloc[0]+'3.SA'
+EPSdf.set_index(['Cod'],inplace=True)
+#%%
+for i in range(len(Sec)):
+    try:
+        EPS = si.get_quote_table(Sec.iloc[i]+'3.SA')
+        EPStemp = pd.DataFrame.from_dict(EPS,orient = 'index').transpose()
+        EPStemp['Cod'] = Sec.iloc[i]+'3.SA'
+        EPStemp.set_index(['Cod'],inplace=True)
+        EPSdf.loc[Sec.iloc[i]+'3.SA'] = EPStemp.loc[Sec.iloc[i]+'3.SA']
+    except:
+        print(Sec.iloc[i]+'3.SA' + " not found")
+
